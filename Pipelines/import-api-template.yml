@@ -1,0 +1,26 @@
+jobs:
+  - job: "ImportAPIs"
+    displayName: "Import APIs"
+    continueOnError: false
+
+    variables:
+      - group: APIM Variables
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - script: echo "Import APIs for deployment"
+    - checkout: git://APIM/Pipelines
+    - checkout: self
+
+    - task: AzurePowerShell@5
+      displayName: Import APIs
+      inputs:
+        azureSubscription: 'APIM'
+        ScriptType: 'FilePath'
+        ScriptPath: 'Pipelines/scripts/deployment/powershellTask_ImportApis.ps1'
+        azurePowerShellVersion: 'LatestVersion'
+      continueOnError: false
+      env:
+        SYSTEM_ACCESSTOKEN: $(system.accesstoken)

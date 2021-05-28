@@ -1,0 +1,14 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+resources:
+  repositories:
+    - repository: Pipelines
+      type: git
+      name: APIM/Pipelines
+      
+jobs: 
+  - template: import-api-template.yml@Pipelines
